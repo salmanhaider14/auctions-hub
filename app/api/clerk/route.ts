@@ -61,6 +61,7 @@ export async function POST(req: Request) {
       data: {
         email: payload.data?.email_addresses[0]?.email_address,
         name: payload.data?.email_addresses[0]?.email_address,
+        clerkUserId: payload.data?.id,
       },
     });
     console.log("User Created:", user.id);

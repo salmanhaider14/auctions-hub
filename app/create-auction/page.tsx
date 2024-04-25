@@ -24,7 +24,6 @@ const CreateAuction = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      ("use server");
       if (userId != null) {
         await createAuction({ ...form, userId });
         console.log("Auction created successfully");
