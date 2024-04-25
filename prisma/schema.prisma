@@ -4,19 +4,19 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id       String   @id @default(cuid())
+  id       String   @id @default(cuid()) @map("_id")
   email    String   @unique
   name     String
   bids     Bid[]
 }
 
 model Auction {
-  id          String   @id @default(cuid())
+  id          String   @id @default(cuid()) @map("_id")
   title       String
   description String
   startingPrice Float
@@ -27,7 +27,7 @@ model Auction {
 }
 
 model Bid {
-  id        String   @id @default(cuid())
+  id        String   @id @default(cuid()) @map("_id")
   amount    Float
   auctionId String
   userId String
