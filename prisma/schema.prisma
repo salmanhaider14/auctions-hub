@@ -12,6 +12,7 @@ model User {
   id       String   @id @default(cuid()) @map("_id")
   email    String   @unique
   name     String
+  auctions Auction[]
   bids     Bid[]
 }
 
@@ -23,6 +24,7 @@ model Auction {
   reservePrice Float
   endDate     DateTime
   userId String
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   bids        Bid[]
 }
 
