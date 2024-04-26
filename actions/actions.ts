@@ -24,3 +24,16 @@ export const createAuction = async (auction: AuctionForm) => {
     },
   });
 };
+export const createBid = async (
+  amount: number,
+  auctionId: string,
+  userId: string
+) => {
+  await db.bid.create({
+    data: {
+      amount,
+      auctionId,
+      userId,
+    },
+  });
+};

@@ -1,8 +1,9 @@
 "use client";
+import { createAuction } from "@/actions/actions";
 import db from "@/utils/db";
 import { useAuth } from "@clerk/nextjs";
 import { useState } from "react";
-import { createAuction } from "./action";
+
 interface AuctionForm {
   title: string;
   description: string;
@@ -20,16 +21,28 @@ const CreateAuction = () => {
     endDate: "",
   });
   const { userId } = useAuth();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
+      setIsSubmitting(true); // Set isSubmitting to true when form is being submitted
       if (userId != null) {
         await createAuction({ ...form, userId });
         console.log("Auction created successfully");
+        // Reset form after successful submission
+        setForm({
+          title: "",
+          description: "",
+          startingPrice: 0,
+          reservePrice: 0,
+          endDate: "",
+        });
       }
     } catch (error) {
       console.error("Error creating auction:", error);
+    } finally {
+      setIsSubmitting(false); // Reset isSubmitting after submission completes
     }
   };
 
@@ -45,7 +58,8 @@ const CreateAuction = () => {
             onChange={(event) =>
               setForm({ ...form, title: event.target.value })
             }
-            className="block w-full p-2 pl-10 text-sm text-gray-700"
+            className="block w-full p-2 text-sm text-gray-700 rounded-md border focus:outline-none focus:ring focus:border-blue-300"
+            required
           />
         </label>
         <label className="block">
@@ -55,7 +69,8 @@ const CreateAuction = () => {
             onChange={(event) =>
               setForm({ ...form, description: event.target.value })
             }
-            className="block w-full p-2 pl-10 text-sm text-gray-700"
+            className="block w-full p-2 text-sm text-gray-700 rounded-md border focus:outline-none focus:ring focus:border-blue-300"
+            required
           />
         </label>
         <label className="block">
@@ -66,7 +81,8 @@ const CreateAuction = () => {
             onChange={(event) =>
               setForm({ ...form, startingPrice: event.target.valueAsNumber })
             }
-            className="block w-full p-2 pl-10 text-sm text-gray-700"
+            className="block w-full p-2 text-sm text-gray-700 rounded-md border focus:outline-none focus:ring focus:border-blue-300"
+            required
           />
         </label>
         <label className="block">
@@ -77,7 +93,8 @@ const CreateAuction = () => {
             onChange={(event) =>
               setForm({ ...form, reservePrice: event.target.valueAsNumber })
             }
-            className="block w-full p-2 pl-10 text-sm text-gray-700"
+            className="block w-full p-2 text-sm text-gray-700 rounded-md border focus:outline-none focus:ring focus:border-blue-300"
+            required
           />
         </label>
         <label className="block">
@@ -88,15 +105,21 @@ const CreateAuction = () => {
             onChange={(event) =>
               setForm({ ...form, endDate: event.target.value })
             }
-            className="block w-full p-2 pl-10 text-sm text-gray-700"
+            className="block w-full p-2 text-sm text-gray-700 rounded-md border focus:outline-none focus:ring focus:border-blue-300"
+            required
           />
         </label>
 
         <button
           type="submit"
-          className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded"
+          className={`${
+            isSubmitting
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-orange-500 hover:bg-orange-700"
+          } text-white font-bold py-2 px-4 rounded`}
+          disabled={isSubmitting}
         >
-          Create Auction
+          {isSubmitting ? "Creating Auction..." : "Create Auction"}
         </button>
       </form>
     </div>

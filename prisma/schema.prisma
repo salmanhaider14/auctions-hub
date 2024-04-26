@@ -27,6 +27,8 @@ model Auction {
   userId String
   user        User?     @relation(fields: [userId], references: [clerkUserId], onDelete: Cascade)
   bids        Bid[]
+  isEnded        Boolean   @default(false)  
+  isEmailSent    Boolean?  @default(false) 
 }
 
 model Bid {
