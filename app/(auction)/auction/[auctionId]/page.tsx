@@ -40,7 +40,7 @@ export default async function Page({
 
   const emailSent = auction.isEmailSent;
 
-  if (initialTimeRemaining <= 0 && !emailSent && highestBid && !auctionEnded) {
+  if (initialTimeRemaining <= 0 && !emailSent) {
     const winnerData = {
       auctionId: params.auctionId,
       winnerEmail: highestBid.user.email,
