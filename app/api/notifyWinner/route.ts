@@ -1,3 +1,4 @@
+import db from "@/utils/db";
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import Stripe from "stripe";
@@ -60,6 +61,10 @@ export async function POST(req: Request, res: NextResponse) {
   try {
     const result = await transporter.sendMail(mailOptions);
     console.log("Email sent:", result.response);
+    await db.auction.update({
+      where: { id: auctionId },
+      data: { isEmailSent: true },
+    });
     return NextResponse.json(
       { message: "Email sent successfully" },
       { status: 200 }

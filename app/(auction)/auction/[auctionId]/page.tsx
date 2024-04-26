@@ -64,7 +64,7 @@ export default async function Page({
 
       await db.auction.update({
         where: { id: params.auctionId },
-        data: { isEmailSent: true, isEnded: true },
+        data: { isEnded: true },
       });
     } catch (error) {
       console.error("Error notifying winner:", error);
