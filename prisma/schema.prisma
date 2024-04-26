@@ -29,6 +29,7 @@ model Auction {
   bids        Bid[]
   isEnded        Boolean   @default(false)  
   isEmailSent    Boolean?  @default(false) 
+  purchased  Boolean?      @default(false)
 }
 
 model Bid {

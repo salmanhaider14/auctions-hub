@@ -46,6 +46,7 @@ export default async function Page({
       winnerEmail: highestBid.user.email,
       winnerName: highestBid.user.name,
       highestBid: highestBid.amount,
+      auctionName: auction.title,
     };
     try {
       const response = await fetch(
