@@ -55,9 +55,6 @@ const BidComponent = ({
       >
         {isBidding ? "Bidding..." : "Place Bid"}
       </Button>
-      {isBidding && (
-        <p className="mt-2 text-sm text-gray-600">Bidding in progress...</p>
-      )}
     </div>
   );
 };

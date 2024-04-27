@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { Textarea } from "@/components/ui/textarea";
+import { useRouter } from "next/navigation";
 
 interface AuctionForm {
   title: string;
@@ -45,6 +46,7 @@ const CreateAuction = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formErrors, setFormErrors] = useState<any>({});
   const { toast } = useToast();
+  const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -90,6 +92,7 @@ const CreateAuction = () => {
           endDate: "",
           images: [],
         });
+        router.push(`${process.env.NEXT_PUBLIC_URL}/dashboard`);
       }
     } catch (error) {
       toast({

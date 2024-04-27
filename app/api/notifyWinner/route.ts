@@ -16,13 +16,20 @@ const transporter = nodemailer.createTransport({
 });
 
 export async function POST(req: Request, res: NextResponse) {
-  const { auctionId, winnerEmail, winnerName, highestBid, auctionName } =
-    await req.json();
+  const {
+    auctionId,
+    winnerEmail,
+    winnerName,
+    highestBid,
+    auctionName,
+    userId,
+  } = await req.json();
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     metadata: {
       auctionId,
+      userId,
     },
     line_items: [
       {

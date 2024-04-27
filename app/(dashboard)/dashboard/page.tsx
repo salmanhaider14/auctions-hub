@@ -13,13 +13,38 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { UserButton } from "@clerk/nextjs";
 import UserAuctions from "./components/UserAuctions";
 import UserBids from "./components/UserBids";
+import db from "@/utils/db";
+import { auth } from "@clerk/nextjs/server";
+import UserOwnedAuctions from "./components/UserOwnedAuctions";
 
 export const metadata: Metadata = {
   title: "Dashboard",
   description: "Example dashboard app built using the components.",
 };
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const { userId } = auth();
+  let auctions = [];
+  let bids = [];
+  let ownedAuctions = [];
+  if (userId) {
+    auctions = await db.auction.findMany({
+      where: {
+        userId: userId,
+      },
+    });
+    bids = await db.bid.findMany({
+      where: {
+        userId: userId,
+      },
+    });
+    ownedAuctions = await db.userOwnedAuction.findMany({
+      where: {
+        userId: userId,
+      },
+    });
+  }
+
   return (
     <>
       <div className="md:hidden">
@@ -52,13 +77,14 @@ export default function DashboardPage() {
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="auctions">Auctions</TabsTrigger>
               <TabsTrigger value="bids">Bids</TabsTrigger>
+              <TabsTrigger value="owned-auctions">Owned Auctions</TabsTrigger>
             </TabsList>
             <TabsContent value="overview" className="space-y-4">
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
-                      Total Revenue
+                      My Auctions
                     </CardTitle>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -74,17 +100,12 @@ export default function DashboardPage() {
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">$45,231.89</div>
-                    <p className="text-xs text-muted-foreground">
-                      +20.1% from last month
-                    </p>
+                    <div className="text-2xl font-bold">{auctions.length}</div>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">
-                      Subscriptions
-                    </CardTitle>
+                    <CardTitle className="text-sm font-medium">Bids</CardTitle>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -101,15 +122,12 @@ export default function DashboardPage() {
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">+2350</div>
-                    <p className="text-xs text-muted-foreground">
-                      +180.1% from last month
-                    </p>
+                    <div className="text-2xl font-bold">{bids.length}</div>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Sales</CardTitle>
+                    <CardTitle className="text-sm font-medium">Owned</CardTitle>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -125,16 +143,15 @@ export default function DashboardPage() {
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">+12,234</div>
-                    <p className="text-xs text-muted-foreground">
-                      +19% from last month
-                    </p>
+                    <div className="text-2xl font-bold">
+                      {ownedAuctions.length}
+                    </div>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">
-                      Active Now
+                      Watchlist Items
                     </CardTitle>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -150,10 +167,7 @@ export default function DashboardPage() {
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">+573</div>
-                    <p className="text-xs text-muted-foreground">
-                      +201 since last hour
-                    </p>
+                    <div className="text-2xl font-bold">0</div>
                   </CardContent>
                 </Card>
               </div>
@@ -180,6 +194,9 @@ export default function DashboardPage() {
             </TabsContent>
             <TabsContent value="bids">
               <UserBids />
+            </TabsContent>
+            <TabsContent value="owned-auctions">
+              <UserOwnedAuctions />
             </TabsContent>
           </Tabs>
         </div>

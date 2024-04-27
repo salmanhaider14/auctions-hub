@@ -15,6 +15,8 @@ model User {
   clerkUserId String @unique()
   auctions Auction[]
   bids     Bid[]
+  ownedAuctions UserOwnedAuction[]
+  watchlist   WatchlistItem[]
 }
 
 model Auction {
@@ -31,6 +33,8 @@ model Auction {
   isEmailSent    Boolean?  @default(false) 
   purchased  Boolean?      @default(false)
   images String[]
+  userOwnedAuctions UserOwnedAuction[]
+  watchlistItems WatchlistItem[]
 }
 
 model Bid {
@@ -41,4 +45,19 @@ model Bid {
   auction   Auction  @relation(fields: [auctionId], references: [id], onDelete: Cascade)
   user      User     @relation(fields: [userId], references: [clerkUserId], onDelete: Cascade)
   createdAt DateTime @default(now())
+}
+model UserOwnedAuction {
+  id         String   @id @default(cuid()) @map("_id")
+  userId     String
+  auctionId  String
+  user       User     @relation(fields: [userId], references: [clerkUserId], onDelete: Cascade)
+  auction    Auction  @relation(fields: [auctionId], references: [id], onDelete: Cascade)
+}
+
+model WatchlistItem {
+  id         String   @id @default(cuid()) @map("_id")
+  userId     String
+  auctionId  String
+  user       User     @relation(fields: [userId], references: [clerkUserId], onDelete: Cascade)
+  auction    Auction  @relation(fields: [auctionId], references: [id], onDelete: Cascade)
 }

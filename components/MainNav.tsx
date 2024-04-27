@@ -5,7 +5,9 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
+import { ShoppingCartIcon } from "lucide-react";
 import Link from "next/link";
+import Cart from "./Cart";
 
 const MainNav: React.FC = () => {
   return (
@@ -17,6 +19,7 @@ const MainNav: React.FC = () => {
         <Link href={`${process.env.NEXT_PUBLIC_URL}/dashboard`}>Dashboard</Link>
         <SignedIn>
           <UserButton />
+          <Cart />
         </SignedIn>
         <SignedOut>
           <SignInButton />

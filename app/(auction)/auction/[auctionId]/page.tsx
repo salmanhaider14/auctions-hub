@@ -7,6 +7,8 @@ import { Separator } from "@radix-ui/react-separator";
 import { differenceInMilliseconds } from "date-fns";
 import { redirect } from "next/navigation";
 import { CircleDollarSign } from "lucide-react";
+import { SignInButton, SignedIn, SignedOut } from "@clerk/nextjs";
+import ShareButton from "@/components/ShareButton";
 
 export default async function Page({
   params,
@@ -52,6 +54,7 @@ export default async function Page({
       winnerName: highestBid.user.name,
       highestBid: highestBid.amount,
       auctionName: auction.title,
+      userId: highestBid.userId,
     };
     try {
       const response = await fetch(
@@ -94,8 +97,8 @@ export default async function Page({
               {" "}
               <ImagesDisplay images={auction.images} />
               <div className="px-4 py-5 sm:px-6">
-                <h1 className="text-3xl font-bold text-gray-800">
-                  {auction.title}
+                <h1 className="text-3xl font-bold text-gray-800 flex items-center gap-2">
+                  {auction.title} <ShareButton />
                 </h1>
                 <p className="mt-2 text-sm text-gray-600 mb-4">
                   {auction.description}
@@ -107,6 +110,10 @@ export default async function Page({
                 <p className="mt-2 text-md text-gray-600">
                   <span className="font-semibold">Highest Bid:</span> $
                   {highestBid ? highestBid.amount : auction.startingPrice}
+                </p>
+                <p className="mt-2 text-md text-gray-600">
+                  <span className="font-semibold">Total Bids: </span>
+                  {bids && bids.length > 0 && bids.length}
                 </p>
 
                 {initialTimeRemaining > 0 ? (
@@ -120,19 +127,28 @@ export default async function Page({
                   </p>
                 )}
 
-                {initialTimeRemaining > 0 && (
-                  <BidComponent
-                    auctionId={auction.id}
-                    startingPrice={auction.startingPrice}
-                  />
-                )}
+                <SignedIn>
+                  {initialTimeRemaining > 0 && !auctionEnded && (
+                    <BidComponent
+                      auctionId={auction.id}
+                      startingPrice={auction.startingPrice}
+                    />
+                  )}
+                </SignedIn>
+                <SignedOut>
+                  {!auctionEnded && (
+                    <p className="text-md my-2 text-yellow-600 font-semibold">
+                      Plz sign in to place bids!!
+                    </p>
+                  )}
+                </SignedOut>
               </div>
             </div>
 
             <div className="px-4 py-5 sm:px-6">
               {bids && bids.length > 0 ? (
                 <ul className="flex flex-col gap-2">
-                  {bids.map((bid, index) => (
+                  {/* {bids.map((bid, index) => (
                     <div key={index}>
                       <li className="text-lg flex items-center gap-1  p-2 rounded-md  cursor-pointer">
                         <CircleDollarSign className=" text-yellow-600" />
@@ -140,7 +156,15 @@ export default async function Page({
                         by {bid.user.name}
                       </li>
                     </div>
-                  ))}
+                  ))} */}
+                  <p className="text-lg text-gray-700 my-2 font-bold">
+                    {auctionEnded ? "Winner:" : "Top Bid:"}
+                  </p>
+                  <li className="text-lg flex items-center gap-1  p-2 rounded-md  cursor-pointer">
+                    <CircleDollarSign className=" text-yellow-600" />
+                    <span className="font-semibold">Bid:</span>$
+                    {highestBid?.amount} by {highestBid?.user.name}
+                  </li>
                 </ul>
               ) : (
                 <p className="text-sm text-gray-600">No bids yet</p>

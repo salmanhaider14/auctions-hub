@@ -36,8 +36,9 @@ export default function Countdown({
     format: ["days", "hours", "minutes"],
   });
   return (
-    <p className="mt-2 text-sm text-gray-600">
-      Time Remaining: {formattedTimeRemaining}
+    <p className="mt-2 text-md text-gray-600">
+      <span className="font-semibold">Time Remaining:</span>{" "}
+      {formattedTimeRemaining}
     </p>
   );
 }

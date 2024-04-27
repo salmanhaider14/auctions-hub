@@ -24,11 +24,20 @@ import { format } from "date-fns";
 const AuctionsList = ({ auctions }: { auctions: any }) => {
   const itemsPerPage = 8; // Adjust as needed
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [priceFilter, setPriceFilter] = useState("");
+
+  const filteredAuctions = auctions.filter((auction: any) => {
+    return (
+      auction.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      (!priceFilter || auction.startingPrice <= parseFloat(priceFilter))
+    );
+  });
   const totalPages = Math.ceil(auctions.length / itemsPerPage);
 
   const indexOfLastAuction = currentPage * itemsPerPage;
   const indexOfFirstAuction = indexOfLastAuction - itemsPerPage;
-  const currentAuctions = auctions.slice(
+  const currentAuctions = filteredAuctions.slice(
     indexOfFirstAuction,
     indexOfLastAuction
   );
@@ -36,6 +45,25 @@ const AuctionsList = ({ auctions }: { auctions: any }) => {
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
   return (
     <div>
+      <div className="flex justify-between items-center mb-4 flex-wrap">
+        {/* Search Bar */}
+        <input
+          type="text"
+          placeholder="Search auctions..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+        />
+
+        {/* Price Filter */}
+        <input
+          type="number"
+          placeholder="Max Price"
+          value={priceFilter}
+          onChange={(e) => setPriceFilter(e.target.value)}
+          className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+        />
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {currentAuctions.map((auction: any) => (
           <Link key={auction.id} href={`/auction/${auction.id}`}>

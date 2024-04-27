@@ -14,6 +14,7 @@ export async function POST(req: Request) {
     if (event.type === "checkout.session.completed") {
       const checkout = event.data.object;
       const auctionId = checkout.metadata?.auctionId;
+      const userId = checkout.metadata?.userId;
 
       const updatedAuction = await db.auction.update({
         where: {
@@ -23,6 +24,17 @@ export async function POST(req: Request) {
           purchased: true,
         },
       });
+
+      if (userId && auctionId) {
+        const userOwnedAuction = await db.userOwnedAuction.create({
+          data: {
+            userId: userId,
+            auctionId: auctionId,
+          },
+        });
+        console.log("UserOwnedAuction created:", userOwnedAuction.id);
+      }
+
       console.log("Auction Purchased:", updatedAuction.id);
     }
     return Response.json({ message: "Webhook Listening" });
