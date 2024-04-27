@@ -9,6 +9,9 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/toaster";
+import MainNav from "@/components/MainNav";
+import Footer from "@/components/Footer";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -34,7 +37,10 @@ export default function RootLayout({
             fontSans.variable
           )}
         >
+          <MainNav />
           {children}
+          <Footer />
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>

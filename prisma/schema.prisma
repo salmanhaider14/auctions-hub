@@ -30,6 +30,7 @@ model Auction {
   isEnded        Boolean   @default(false)  
   isEmailSent    Boolean?  @default(false) 
   purchased  Boolean?      @default(false)
+  images String[]
 }
 
 model Bid {

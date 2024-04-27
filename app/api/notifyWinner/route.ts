@@ -49,7 +49,6 @@ export async function POST(req: Request, res: NextResponse) {
     html: `
       <p>Hi ${winnerName},</p>
       <p>We are thrilled to inform you that you have won the auction for item ${auctionId}!</p>
-      <p>Please follow these steps to claim your prize:</p>
       <p>To complete your purchase, please use this link to pay securely via Stripe:</p>
         <a href="${session.url}">Pay for Auction ${auctionId}</a>
       <p>Thank you for participating in our auction!</p>

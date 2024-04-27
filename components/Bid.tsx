@@ -2,6 +2,8 @@
 import { createBid } from "@/actions/actions";
 import { useAuth } from "@clerk/nextjs";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "./ui/input";
 
 const BidComponent = ({
   auctionId,
@@ -39,19 +41,20 @@ const BidComponent = ({
 
   return (
     <div className="mt-4">
-      <input
+      <Input
         type="number"
         value={bidAmount}
         onChange={(e) => setBidAmount(parseInt(e.target.value))}
         placeholder="Enter your bid"
-        className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        className=" w-full "
       />
-      <button
+      <Button
         onClick={handleBid}
-        className="mt-2 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        disabled={isBidding}
+        className="mt-2 bg-indigo-600 hover:bg-indigo-700 w-20 "
       >
-        {isBidding ? "Bidding..." : "Bid"}
-      </button>
+        {isBidding ? "Bidding..." : "Place Bid"}
+      </Button>
       {isBidding && (
         <p className="mt-2 text-sm text-gray-600">Bidding in progress...</p>
       )}

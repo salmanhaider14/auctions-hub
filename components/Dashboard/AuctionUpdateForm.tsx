@@ -1,5 +1,5 @@
 "use client";
-import { createAuction } from "@/actions/actions";
+import { createAuction, updateAuction } from "@/actions/actions";
 import { useAuth } from "@clerk/nextjs";
 import { useState } from "react";
 import { z } from "zod";
@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { Textarea } from "@/components/ui/textarea";
+import { redirect, useRouter } from "next/navigation";
 
 interface AuctionForm {
   title: string;
@@ -26,25 +27,23 @@ const AuctionFormSchema = z.object({
   reservePrice: z
     .number()
     .min(0, "Reserve price must be a non-negative number"),
-  endDate: z
-    .string()
-    .regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/i, "Invalid date format"),
 });
 
-const CreateAuction = () => {
+const AuctionUpdateForm = ({ auction }: { auction: any }) => {
   const [form, setForm] = useState<AuctionForm>({
-    title: "",
-    description: "",
-    startingPrice: 0,
-    reservePrice: 0,
-    endDate: "",
-    images: [], // Array to store image file objects
+    title: auction.title,
+    description: auction.description,
+    startingPrice: auction.startingPrice,
+    reservePrice: auction.reservePrice,
+    endDate: auction.endDate,
+    images: [],
   });
 
   const { userId } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formErrors, setFormErrors] = useState<any>({});
   const { toast } = useToast();
+  const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -57,39 +56,36 @@ const CreateAuction = () => {
         const images = form.images;
         console.log(images);
         let imageUrls: string[] = [];
-        for (const image in images) {
-          if (images.hasOwnProperty(image)) {
-            const value = images[image];
-            const uploadedFiles = await fetch(
-              `${process.env.NEXT_PUBLIC_URL}/api/uploadImage?filename=${value.name}`,
-              {
-                method: "POST",
-                body: value,
-              }
-            );
-            const uploadedFilesRes = await uploadedFiles.json();
-            imageUrls.push(uploadedFilesRes.url);
+        if (form.images.length > 0) {
+          for (const image in images) {
+            if (images.hasOwnProperty(image)) {
+              const value = images[image];
+              const uploadedFiles = await fetch(
+                `${process.env.NEXT_PUBLIC_URL}/api/uploadImage?filename=${value.name}`,
+                {
+                  method: "POST",
+                  body: value,
+                }
+              );
+              const uploadedFilesRes = await uploadedFiles.json();
+              imageUrls.push(uploadedFilesRes.url);
+            }
           }
+        } else {
+          imageUrls = auction.images;
         }
 
-        await createAuction({
+        await updateAuction(auction.id, {
           ...form,
           userId,
           images: imageUrls,
         });
         toast({
-          title: "Auction Created Successfully",
+          title: "Auction Updated Successfully",
           description: `${form.title}`,
           variant: "default",
         });
-        setForm({
-          title: "",
-          description: "",
-          startingPrice: 0,
-          reservePrice: 0,
-          endDate: "",
-          images: [],
-        });
+        router.push(`${process.env.NEXT_PUBLIC_URL}/dashboard`);
       }
     } catch (error) {
       toast({
@@ -109,7 +105,7 @@ const CreateAuction = () => {
         setFormErrors(zodErrors);
         console.log(formErrors);
       } else {
-        console.error("Error creating auction:", error);
+        console.error("Error updating auction:", error);
       }
     } finally {
       setIsSubmitting(false); // Reset isSubmitting after submission completes
@@ -118,8 +114,6 @@ const CreateAuction = () => {
 
   return (
     <div className="max-w-md mx-auto p-4 pt-6 pb-8 bg-white rounded shadow-md">
-      <h1 className="text-3xl font-bold mb-4">Create Auction</h1>
-
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="flex flex-col gap-2">
           <Label htmlFor="title" className="text-gray-700">
@@ -131,7 +125,6 @@ const CreateAuction = () => {
             onChange={(event) =>
               setForm({ ...form, title: event.target.value })
             }
-            required
             id="title"
           />
           {formErrors.title && (
@@ -147,7 +140,6 @@ const CreateAuction = () => {
             onChange={(event) =>
               setForm({ ...form, description: event.target.value })
             }
-            required
             id="description"
           />
           {formErrors.description && (
@@ -165,7 +157,6 @@ const CreateAuction = () => {
             onChange={(event) =>
               setForm({ ...form, startingPrice: event.target.valueAsNumber })
             }
-            required
             id="startingPrice"
           />
           {formErrors.startingPrice && (
@@ -182,7 +173,6 @@ const CreateAuction = () => {
             onChange={(event) =>
               setForm({ ...form, reservePrice: event.target.valueAsNumber })
             }
-            required
             id="reservePrice"
           />
           {formErrors.reservePrice && (
@@ -199,7 +189,6 @@ const CreateAuction = () => {
             onChange={(event) =>
               setForm({ ...form, endDate: event.target.value })
             }
-            required
             id="endDate"
           />
           {formErrors.endDate && (
@@ -218,7 +207,6 @@ const CreateAuction = () => {
               const selectedFiles = event.target.files;
               setForm({ ...form, images: selectedFiles });
             }}
-            required
             id="images"
           />
           {formErrors.images && (
@@ -235,11 +223,11 @@ const CreateAuction = () => {
           } text-white font-bold py-2 px-4 rounded`}
           type="submit"
         >
-          {isSubmitting ? "Creating Auction..." : "Create Auction"}
+          {isSubmitting ? "Updating Auction..." : "Update Auction"}
         </Button>
       </form>
     </div>
   );
 };
 
-export default CreateAuction;
+export default AuctionUpdateForm;

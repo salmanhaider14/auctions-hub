@@ -24,8 +24,8 @@ export async function POST(req: Request) {
         },
       });
       console.log("Auction Purchased:", updatedAuction.id);
-      return new Response();
     }
+    return Response.json({ message: "Webhook Listening" });
   } catch (error) {
     console.error("Webhook Error:", error);
   }
