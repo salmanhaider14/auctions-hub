@@ -17,9 +17,8 @@ const ImagesDisplay = ({ images }: { images: string[] }) => {
       </div>
       <div className="flex gap-2 mt-4">
         {images?.map((item, i) => (
-          <div className=" bg-[#f02d34] rounded-md">
+          <div className=" bg-[#f02d34] rounded-md" key={i}>
             <Image
-              key={i}
               src={item}
               width={70}
               height={70}

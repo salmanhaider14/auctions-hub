@@ -17,9 +17,9 @@ export default async function Home() {
         <p className="text-sm text-gray-600 text-center mt-2">
           Welcome to our auction platform, where every bid tells a story.
           Explore a wide array of items ranging from rare collectibles to
-          everyday essentials. Whether you're a seasoned collector or a curious
-          browser, there's something for everyone. Start your journey today and
-          bid on your next adventure!
+          everyday essentials. Whether you&apos;re a seasoned collector or a
+          curious browser, there&apos;s something for everyone. Start your
+          journey today and bid on your next adventure!
         </p>
       </header>
 
