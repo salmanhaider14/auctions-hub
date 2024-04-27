@@ -47,8 +47,11 @@ const Cart = async () => {
             <SheetDescription></SheetDescription>
           </SheetHeader>
           <div className="flex flex-col gap-3 justify-center">
-            {watchListItems.map((item: any) => (
-              <div className="flex justify-between items-center gap-2">
+            {watchListItems.map((item: any, index: number) => (
+              <div
+                className="flex justify-between items-center gap-2"
+                key={index}
+              >
                 <p className="text-gray-600">{item?.auction.title}</p>
                 <p className="font-semibold">
                   {remainingTime(item?.auction.endDate) > 0
