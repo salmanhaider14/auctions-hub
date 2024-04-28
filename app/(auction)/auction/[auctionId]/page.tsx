@@ -49,46 +49,46 @@ export default async function Page({
 
   const emailSent = auction.isEmailSent;
 
-  if (initialTimeRemaining <= 0 && !emailSent && highestBid) {
-    const winnerData = {
-      auctionId: params.auctionId,
-      winnerEmail: highestBid.user.email,
-      winnerName: highestBid.user.name,
-      highestBid: highestBid.amount,
-      auctionName: auction.title,
-      userId: highestBid.userId,
-    };
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_URL}/api/notifyWinner`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(winnerData),
-        }
-      );
-      const data = await response.json();
-      console.log(data.message);
+  // if (initialTimeRemaining <= 0 && !emailSent && highestBid) {
+  //   const winnerData = {
+  //     auctionId: params.auctionId,
+  //     winnerEmail: highestBid.user.email,
+  //     winnerName: highestBid.user.name,
+  //     highestBid: highestBid.amount,
+  //     auctionName: auction.title,
+  //     userId: highestBid.userId,
+  //   };
+  //   try {
+  //     const response = await fetch(
+  //       `${process.env.NEXT_PUBLIC_URL}/api/notifyWinner`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify(winnerData),
+  //       }
+  //     );
+  //     const data = await response.json();
+  //     console.log(data.message);
 
-      await db.auction.update({
-        where: { id: params.auctionId },
-        data: { isEnded: true },
-      });
-    } catch (error) {
-      console.error("Error notifying winner:", error);
-    }
-  } else if (initialTimeRemaining <= 0) {
-    try {
-      await db.auction.update({
-        where: { id: params.auctionId },
-        data: { isEnded: true },
-      });
-    } catch (error) {
-      console.log("Error updating the auction: ", error);
-    }
-  }
+  //     await db.auction.update({
+  //       where: { id: params.auctionId },
+  //       data: { isEnded: true },
+  //     });
+  //   } catch (error) {
+  //     console.error("Error notifying winner:", error);
+  //   }
+  // } else if (initialTimeRemaining <= 0 && !auctionEnded) {
+  //   try {
+  //     await db.auction.update({
+  //       where: { id: params.auctionId },
+  //       data: { isEnded: true },
+  //     });
+  //   } catch (error) {
+  //     console.log("Error updating the auction: ", error);
+  //   }
+  // }
 
   return (
     <>

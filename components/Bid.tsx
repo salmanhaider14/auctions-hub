@@ -4,6 +4,7 @@ import { useAuth } from "@clerk/nextjs";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "./ui/input";
+import { useRouter } from "next/navigation";
 
 const BidComponent = ({
   auctionId,
@@ -15,6 +16,7 @@ const BidComponent = ({
   const [bidAmount, setBidAmount] = useState(startingPrice + 1); // Set initial bid amount to starting price + 1
   const [isBidding, setIsBidding] = useState(false);
   const { userId } = useAuth();
+  const router = useRouter();
 
   const handleBid = async () => {
     if (bidAmount <= startingPrice) {
@@ -29,6 +31,7 @@ const BidComponent = ({
       if (userId) {
         await createBid(bidAmount, auctionId, userId);
         console.log("Bid Created Successfully");
+        router.refresh();
         // Increment bid amount for next bid
         setBidAmount(bidAmount + 1);
       }

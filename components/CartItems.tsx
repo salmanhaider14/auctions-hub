@@ -44,7 +44,9 @@ const CartItems = ({
           <Link
             href={`${process.env.NEXT_PUBLIC_URL}/auction/${item?.auction.id}`}
           >
-            <p className="text-gray-600">{item?.auction.title}</p>
+            <p className="text-gray-600 dark:text-white">
+              {item?.auction.title}
+            </p>
           </Link>
 
           <div className="flex justify-center col-span-2">
