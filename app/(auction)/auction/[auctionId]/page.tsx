@@ -9,6 +9,8 @@ import { redirect } from "next/navigation";
 import { CircleDollarSign } from "lucide-react";
 import { SignInButton, SignedIn, SignedOut } from "@clerk/nextjs";
 import ShareButton from "@/components/ShareButton";
+import { Button } from "@/components/ui/button";
+import AddToCart from "@/components/AddToCart";
 
 export default async function Page({
   params,
@@ -91,27 +93,27 @@ export default async function Page({
   return (
     <>
       {auction && (
-        <div className="bg-gray-100 min-h-screen py-8 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+        <div className="bg-gray-100 dark:bg-neutral-900 min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mx-auto bg-white dark:bg-neutral-800 rounded-lg shadow-lg overflow-hidden">
             <div className="flex gap-5  m-5 flex-wrap md:flex-nowrap">
               {" "}
               <ImagesDisplay images={auction.images} />
               <div className="px-4 py-5 sm:px-6">
-                <h1 className="text-3xl font-bold text-gray-800 flex items-center gap-2">
-                  {auction.title} <ShareButton />
+                <h1 className="text-3xl font-bold text-gray-800 dark:text-white ">
+                  {auction.title}
                 </h1>
-                <p className="mt-2 text-sm text-gray-600 mb-4">
+                <p className="mt-2 text-sm text-gray-600 dark:text-white mb-4">
                   {auction.description}
                 </p>
-                <p className="mt-2 text-md text-gray-600">
+                <p className="mt-2 text-md text-gray-600 dark:text-white">
                   <span className="font-semibold">Starting Price:</span> $
                   {auction.startingPrice}
                 </p>
-                <p className="mt-2 text-md text-gray-600">
+                <p className="mt-2 text-md text-gray-600 dark:text-white">
                   <span className="font-semibold">Highest Bid:</span> $
                   {highestBid ? highestBid.amount : auction.startingPrice}
                 </p>
-                <p className="mt-2 text-md text-gray-600">
+                <p className="mt-2 text-md text-gray-600 dark:text-white">
                   <span className="font-semibold">Total Bids: </span>
                   {bids && bids.length > 0 && bids.length}
                 </p>
@@ -144,7 +146,14 @@ export default async function Page({
                 </SignedOut>
               </div>
             </div>
-
+            <div className="flex items-center flex-wrap">
+              <ShareButton />
+              <AddToCart
+                auctionEnded={auctionEnded}
+                auctionId={auction.id}
+                userId={userId}
+              />
+            </div>
             <div className="px-4 py-5 sm:px-6">
               {bids && bids.length > 0 ? (
                 <ul className="flex flex-col gap-2">
@@ -157,6 +166,7 @@ export default async function Page({
                       </li>
                     </div>
                   ))} */}
+
                   <p className="text-lg text-gray-700 my-2 font-bold">
                     {auctionEnded ? "Winner:" : "Top Bid:"}
                   </p>

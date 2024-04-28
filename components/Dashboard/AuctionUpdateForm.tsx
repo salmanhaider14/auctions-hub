@@ -113,10 +113,10 @@ const AuctionUpdateForm = ({ auction }: { auction: any }) => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-4 pt-6 pb-8 bg-white rounded shadow-md">
+    <div className="max-w-md mx-auto p-4 pt-6 pb-8 bg-white dark:bg-gray-900 rounded shadow-md">
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="flex flex-col gap-2">
-          <Label htmlFor="title" className="text-gray-700">
+          <Label htmlFor="title" className="text-gray-700 dark:text-white">
             Title:
           </Label>
           <Input
@@ -132,7 +132,10 @@ const AuctionUpdateForm = ({ auction }: { auction: any }) => {
           )}
         </div>
         <div className="flex flex-col gap-2">
-          <Label htmlFor="description" className="text-gray-700">
+          <Label
+            htmlFor="description"
+            className="text-gray-700 dark:text-white"
+          >
             Description:
           </Label>
           <Textarea
@@ -148,7 +151,10 @@ const AuctionUpdateForm = ({ auction }: { auction: any }) => {
         </div>
 
         <div className="flex flex-col gap-2">
-          <Label htmlFor="startingPrice" className="text-gray-700">
+          <Label
+            htmlFor="startingPrice"
+            className="text-gray-700 dark:text-white"
+          >
             Starting Price:
           </Label>
           <Input
@@ -164,7 +170,10 @@ const AuctionUpdateForm = ({ auction }: { auction: any }) => {
           )}
         </div>
         <div className="flex flex-col gap-2">
-          <Label htmlFor="reservePrice" className="text-gray-700">
+          <Label
+            htmlFor="reservePrice"
+            className="text-gray-700 dark:text-white"
+          >
             Reserve Price:
           </Label>
           <Input
@@ -180,7 +189,7 @@ const AuctionUpdateForm = ({ auction }: { auction: any }) => {
           )}
         </div>
         <div className="flex flex-col gap-2">
-          <Label htmlFor="endDate" className="text-gray-700">
+          <Label htmlFor="endDate" className="text-gray-700 dark:text-white">
             End Date:
           </Label>
           <Input
@@ -196,7 +205,7 @@ const AuctionUpdateForm = ({ auction }: { auction: any }) => {
           )}
         </div>
         <div className="flex flex-col gap-2">
-          <Label htmlFor="images" className="text-gray-700">
+          <Label htmlFor="images" className="text-gray-700 dark:text-white">
             Images:
           </Label>
           <Input

@@ -74,3 +74,24 @@ export const updateAuction = async (
     },
   });
 };
+export const addToCart = async (auctionId: string, userId: string) => {
+  await db.watchlistItem.create({
+    data: {
+      auctionId,
+      userId,
+    },
+  });
+};
+export const deleteFromCart = async (
+  id: string,
+  auctionId: string,
+  userId: string
+) => {
+  await db.watchlistItem.delete({
+    where: {
+      id: id,
+      auctionId: auctionId,
+      userId: userId,
+    },
+  });
+};

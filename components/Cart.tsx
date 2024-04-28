@@ -7,15 +7,17 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-import { Button } from "./ui/button";
-import { ShoppingCart } from "lucide-react";
+import { CircleX, LucideDelete, ShoppingCart } from "lucide-react";
 import { auth } from "@clerk/nextjs/server";
 import db from "@/utils/db";
-import Image from "next/image";
+
 import { differenceInMilliseconds } from "date-fns";
+
+import CartItems from "./CartItems";
 
 const Cart = async () => {
   const { userId } = auth();
+
   let watchListItems: any = [];
   if (userId) {
     watchListItems = await db.watchlistItem.findMany({
@@ -44,29 +46,10 @@ const Cart = async () => {
         <SheetContent>
           <SheetHeader>
             <SheetTitle>Watchlist</SheetTitle>
-            <SheetDescription></SheetDescription>
+            <SheetDescription>{watchListItems.length} Items</SheetDescription>
           </SheetHeader>
-          <div className="flex flex-col gap-3 justify-center">
-            {watchListItems.map((item: any, index: number) => (
-              <div
-                className="flex justify-between items-center gap-2"
-                key={index}
-              >
-                <p className="text-gray-600">{item?.auction.title}</p>
-                <p className="font-semibold">
-                  {remainingTime(item?.auction.endDate) > 0
-                    ? item?.auction.endDate.toDateString()
-                    : "Closed"}
-                </p>
-                <Image
-                  width={70}
-                  height={70}
-                  src={item?.auction?.images[0]}
-                  alt="Cart Item Image"
-                  className="rounded-md"
-                />
-              </div>
-            ))}
+          <div className="w-full">
+            <CartItems watchListItems={watchListItems} userId={userId} />
           </div>
         </SheetContent>
       </Sheet>

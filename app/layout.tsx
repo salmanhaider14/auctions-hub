@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
 import MainNav from "@/components/MainNav";
 import Footer from "@/components/Footer";
+import ThemeProvider from "@/components/ThemeProvider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -37,10 +38,18 @@ export default function RootLayout({
             fontSans.variable
           )}
         >
-          <MainNav />
-          {children}
-          <Footer />
-          <Toaster />
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <MainNav />
+
+            {children}
+            <Footer />
+            <Toaster />
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>

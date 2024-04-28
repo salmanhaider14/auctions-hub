@@ -66,8 +66,7 @@ const UserOwnedAuctionsList = ({ auctions }: { auctions: any }) => {
             <TableHead>Starting Price</TableHead>
             <TableHead>End Date</TableHead>
             <TableHead>Ended</TableHead>
-            <TableHead>Purchased</TableHead>
-            <TableHead className="text-right"></TableHead>
+            <TableHead className="text-right">Purchased</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -80,18 +79,8 @@ const UserOwnedAuctionsList = ({ auctions }: { auctions: any }) => {
               <TableCell>{auction?.auction.startingPrice}</TableCell>
               <TableCell>{auction?.auction.endDate.toDateString()}</TableCell>
               <TableCell>{String(auction?.auction.isEnded)}</TableCell>
-              <TableCell>{String(auction?.auction.purchased)}</TableCell>
-              <TableCell className="text-right flex items-center gap-2">
-                <Trash
-                  color="red"
-                  onClick={() => handleDelete(auction.id)}
-                  className="cursor-pointer"
-                />
-                <Link
-                  href={`${process.env.NEXT_PUBLIC_URL}/auction/update/${auction?.auction.id}`}
-                >
-                  <Pencil className="cursor-pointer" />
-                </Link>
+              <TableCell className="text-right">
+                {String(auction?.auction.purchased)}
               </TableCell>
             </TableRow>
           ))}

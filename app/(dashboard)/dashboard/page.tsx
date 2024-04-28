@@ -27,6 +27,7 @@ export default async function DashboardPage() {
   let auctions = [];
   let bids = [];
   let ownedAuctions = [];
+  let watchListedItems = [];
   if (userId) {
     auctions = await db.auction.findMany({
       where: {
@@ -39,6 +40,11 @@ export default async function DashboardPage() {
       },
     });
     ownedAuctions = await db.userOwnedAuction.findMany({
+      where: {
+        userId: userId,
+      },
+    });
+    watchListedItems = await db.watchlistItem.findMany({
       where: {
         userId: userId,
       },
@@ -167,7 +173,9 @@ export default async function DashboardPage() {
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">0</div>
+                    <div className="text-2xl font-bold">
+                      {watchListedItems.length}
+                    </div>
                   </CardContent>
                 </Card>
               </div>

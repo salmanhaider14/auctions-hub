@@ -25,10 +25,12 @@ import { Pencil, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useToast } from "../ui/use-toast";
+import { useRouter } from "next/navigation";
 
 const UserAuctionsList = ({ auctions }: { auctions: any }) => {
   const itemsPerPage = 8; // Adjust as needed
   const [currentPage, setCurrentPage] = useState(1);
+  const router = useRouter();
   const totalPages = Math.ceil(auctions.length / itemsPerPage);
 
   const indexOfLastAuction = currentPage * itemsPerPage;
@@ -46,6 +48,7 @@ const UserAuctionsList = ({ auctions }: { auctions: any }) => {
       toast({
         title: `Auction ${auctionId} deleted successfully`,
       });
+      router.refresh();
     } catch (error) {
       toast({
         title: `Ops! Something went wrong`,
