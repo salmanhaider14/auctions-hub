@@ -14,7 +14,7 @@ export default async function Home() {
         <p className="text-lg text-gray-600 dark:text-white text-center">
           Uncover treasures and unique finds in our diverse auction listings.
         </p>
-        <p className="text-sm text-gray-600 dark:text-white text-center mt-2">
+        <p className="text-sm hidden md:block text-gray-600 dark:text-white text-center mt-2">
           Welcome to our auction platform, where every bid tells a story.
           Explore a wide array of items ranging from rare collectibles to
           everyday essentials. Whether you&apos;re a seasoned collector or a
