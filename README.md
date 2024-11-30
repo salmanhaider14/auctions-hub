@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Auction Hub
 
-## Getting Started
+**Auction Hub** is a modern web application that allows users to explore, create, and participate in auctions seamlessly. Users can bid on items, post their own auctions, and manage their activities through a feature-rich dashboard. The highest bidder receives a payment link via email to claim the auctioned item once the auction expires.
 
-First, run the development server:
+## 🚀 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Auction Creation**: Post your own auctions with customizable durations.
+- **Bid on Auctions**: Participate in live auctions and bid on items.
+- **Cart Functionality**: Add auctions to your cart for easy tracking.
+- **Email Notifications**: Automatically send the highest bidder a Stripe payment link after an auction expires.
+- **User Dashboard**: Manage your posted auctions and monitor your bids on other auctions.
+- **Authentication**: Secure user authentication powered by **Clerk**.
+- **Dark Mode/Light Mode**: Switch between themes for an optimal user experience.
+- **Responsive Design**: Fully responsive, clean, and intuitive UI.
+- **Built-in Payments**: Integrated with **Stripe** for secure payments.
+- **Scalable Backend**: Powered by **Next.js**, **MongoDB**, and **Prisma**.
+- **Seamless Deployment**: Hosted on **Vercel** for fast, reliable performance.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🛠️ Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- **Frontend**: [Next.js](https://nextjs.org/)  
+- **UI Framework**: [ShadcnUI](https://ui.shadcn.com/)  
+- **Database**: [MongoDB](https://www.mongodb.com/) with [Prisma ORM](https://www.prisma.io/)  
+- **Authentication**: [Clerk](https://clerk.dev/)  
+- **Payments**: [Stripe](https://stripe.com/)  
+- **Deployment**: [Vercel](https://vercel.com/)  
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🖥️ Deployment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Auction Hub** is deployed on **Vercel**. To deploy your own version:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 📚 Documentation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Post Auctions**: Use the dashboard to create new auctions with title, description, images, and a set duration.  
+- **Bid on Auctions**: Click on an auction to view details and place a bid.  
+- **Email Notifications**: The highest bidder will receive an email with a secure Stripe payment link when the auction ends.  
+- **Dashboard**: Manage your auctions and track your bids efficiently.  
+- **Themes**: Toggle between light and dark modes in the settings menu.  
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+---
+
+## 🤝 Contributing
+
+I welcome contributions! To contribute:
+1. Fork the repository.
+2. Create a new branch (`feature/your-feature`).
+3. Commit your changes.
+4. Open a pull request.
+
+---
+
+## 🛡️ License
+
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
+
+---
+Happy bidding! 🎉
